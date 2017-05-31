@@ -9,7 +9,7 @@ import com.drrino.wuapnjieshuhui.domain.Cover
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_cover.view.*
 
-class CoverAdapter(var data: List<Cover> = ArrayList(), var itemClick: (View, Int) -> Unit) : RecyclerView.Adapter<CoverAdapter.CoverViewHolder>() {
+class CoverAdapter(var data: ArrayList<Cover> = ArrayList(), var itemClick: (View, Int) -> Unit) : RecyclerView.Adapter<CoverAdapter.CoverViewHolder>() {
     override fun onBindViewHolder(p0: CoverViewHolder, p1: Int) {
         bindView(p0.itemView, p1)
     }
@@ -32,7 +32,12 @@ class CoverAdapter(var data: List<Cover> = ArrayList(), var itemClick: (View, In
 
     class CoverViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
+    fun notifyData(newData: ArrayList<Cover>) {
+        data.addAll(newData)
+    }
+
     fun refreshData(newData: ArrayList<Cover>) {
+        data.clear()
         data = newData
         notifyDataSetChanged()
     }
