@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.drrino.wuapnjieshuhui.ui.HomeFragment
 import com.drrino.wuapnjieshuhui.ui.adapter.ContentPagerAdapter
+import com.drrino.wuapnjieshuhui.ui.fragment.BookFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         val fragments = ArrayList<Fragment>()
 
         fragments.add(HomeFragment())
-        fragments.add(HomeFragment())
+        fragments.add(BookFragment())
         fragments.add(HomeFragment())
 
         val nameList = nameResList.map(this::getString)

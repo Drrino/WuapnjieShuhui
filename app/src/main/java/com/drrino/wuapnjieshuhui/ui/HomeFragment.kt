@@ -69,6 +69,7 @@ class HomeFragment : Fragment() {
             loadView(pageSize, isRefresh)
         }
 
+        homeRefresh.post { homeRefresh.isRefreshing = true }
         attachToScroll(coverList, coverList.layoutManager as GridLayoutManager, adapter)
     }
 
