@@ -1,6 +1,8 @@
 package com.drrino.wuapnjieshuhui.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
@@ -23,6 +25,7 @@ class BookDetailActivity : AppCompatActivity() {
     lateinit var adapter: PageAdapter
     lateinit var pageRefresh: SwipeRefreshLayout
     lateinit var bookDetail: BookDetail
+    val mHandler: Handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +49,21 @@ class BookDetailActivity : AppCompatActivity() {
 
         pageList = find(R.id.pageList)
         pageList.layoutManager = GridLayoutManager(this, 4)
+
+        adapter = PageAdapter { _, position ->
+            //            if (title.contains("SBS")) {
+//                val news = News(bookDetail[position].title, "", bookDetail[position].link)
+//                WebDetailDialog(this, news, SBSSource())
+//            } else
+            jump2Read(position)
+        }
+        pageList.adapter = adapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        pageRefresh.post { pageRefresh.isRefreshing = true }
+        loadData()
     }
 
     private fun loadData() {
@@ -55,12 +73,22 @@ class BookDetailActivity : AppCompatActivity() {
 
             uiThread {
                 adapter.refreshData(data)
-                pageRefresh.isRefreshing = true
-                if(bookDetail.size()==0){
+
+                if (bookDetail.size() == 0) {
                     pageList.snackbar(R.string.page_load_error)
                 }
+                mHandler.postDelayed({
+                    pageRefresh.isRefreshing = false
+                }, 500)
             }
         }
     }
+
+    private fun jump2Read(position: Int) {
+        var intent = Intent(this, ComicActivity().javaClass)
+        intent.putExtra("url", bookDetail[position].link)
+        startActivity(intent)
+    }
+
 }
 
